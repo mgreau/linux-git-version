@@ -1,0 +1,45 @@
+= Ubuntu/Debian and git
+
+`git clone` tests with different Linux versions and git installed via `apt-get update && apt-get install`
+
+== Ubuntu 14.04
+
+[source, sh]
+--
+$ docker build -t mgreau/ubuntu1404-git ./ubuntu-1404
+
+$ docker run -it --entrypoint=/bin/sh mgreau/ubuntu1404-git
+$ openssl version
+OpenSSL 1.0.1f 6 Jan 2014
+$ git version
+git version 1.9.1
+$ git clone --verbose https://github.com/go-yaml/yaml.git
+Cloning into 'yaml'...
+POST git-upload-pack (390 bytes)
+remote: Counting objects: 1129, done.
+remote: Total 1129 (delta 0), reused 0 (delta 0), pack-reused 1129
+Receiving objects: 100% (1129/1129), 1.24 MiB | 792.00 KiB/s, done.
+Resolving deltas: 100% (711/711),
+...
+--
+
+== Debian 6
+
+[source, sh]
+--
+$ docker build -t mgreau/debian6-git ./debian-6
+
+$ docker run -it --entrypoint=/bin/sh mgreau/debian6-git
+
+$ openssl version
+OpenSSL 0.9.8o 01 Jun 2010
+
+$ git version
+git version 1.7.2.5
+
+$ git clone --verbose https://github.com/go-yaml/yaml.git
+Cloning into yaml...
+error: gnutls_handshake() failed: A TLS fatal alert has been received. while accessing https://github.com/go-yaml/yaml.git/info/refs
+
+fatal: HTTP request failed
+--
